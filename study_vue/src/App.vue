@@ -14,8 +14,34 @@ import TheWelcome from './components/TheWelcome.vue'
 
   <main>
     <TheWelcome />
+    <h1>{{ message }}</h1>
   </main>
 </template>
+
+
+<script>
+import { getMyData } from '@/common/api'; // 导入封装的GET请求函数
+
+export default {
+  data() {
+    return {
+      responseData: {
+        message: '',
+      },
+    };
+  },
+  async mounted() {
+    try {
+      const response = await getMyData(); // 使用封装的GET请求函数
+      console.log(response); // 打印响应数据到控制台
+      this.responseData.message = response.message; // 更新组件数据
+    } catch (error) {
+      console.error(error); // 打印错误到控制台
+      this.responseData.message = 'An error occurred while fetching data.'; // 更新组件数据
+    }
+  },
+};
+</script>
 
 <style scoped>
 header {
